@@ -82,3 +82,56 @@ Sensors ki baseline values ke hisaab se code ke shuruat mein threshold values se
 3. **Mode Toggling:** Push button dabane par sequence chalega:  
    `MQ-2 (Smoke) ➔ MQ-3 (Alcohol) ➔ MQ-135 (Air Quality) ➔ Back to MQ-2`
 4. **Trigger Action:** Agar active sensor ki value threshold cross karti hai, OLED par `! ALERT !` likh kar aayega, Red LED on ho jayegi aur buzzer sound karega.
+
+---
+
+## 📐 Circuit Diagram
+
+```text
+                          +-------------------------+
+                          |   Arduino Uno / Nano    |
+                          +-------------------------+
+                             |   |   |   |   |   |
+         +-------------------+   |   |   |   |   +-------------------+
+         | 5V                    |   |   |   |                   GND |
+         v                       |   |   |   |                       v
+   +-----------+                 |   |   |   |                 +-----------+
+   | VCC Rail  |                 |   |   |   |                 | GND Rail  |
+   +-----------+                 |   |   |   |                 +-----------+
+     |   |   |   |               |   |   |   |                   |   |   |   |
+     |   |   |   +--------+      |   |   |   |      +------------+   |   |   |
+     |   |   +-----+      |      |   |   |   |      |      +---------+   |   |
+     |   +---+     |      |      |   |   |   |      |      |     +-------+   |
+     v       v     v      v      |   |   |   |      v      v     v       v   v
+   +----+  +----+ +-----+ +----+ |   |   |   |    +----+ +----+ +-----+ +----+
+   |MQ-2|  |MQ-3| |MQ135| |OLED| |   |   |   |    |MQ-2| |MQ-3| |MQ135| |OLED|
+   +----+  +----+ +-----+ +----+ |   |   |   |    +----+ +----+ +-----+ +----+
+     |       |       |      |    |   |   |   |      |      |       |      |
+    [A0]    [A1]    [A2]  [SDA]  |   |   |   |    [GND]  [GND]   [GND]  [GND]
+     |       |       |      |    |   |   |   |
+     v       v       v      |    |   |   |   |
+    (A0)    (A1)    (A2)    |    |   |   |   |
+                            v    v   |   |   |
+                           (A4) (A5) |   |   |
+                             ^       |   |   |
+                             |       |   |   |
+                        OLED [SCK]---+   |   |
+                                         |   |
+   +-------------------------------------+   |
+   |                                         |
+   v                                         v
+ [Pin D2] ----------------------------+    [Pin D8] 
+   |                                  |       |
+   |                                  |       v
+   v                                  |    +------+
+ [Push Button]                        |    |Buzzer| (+)
+   |                                  |    +------+
+   v                                  |       | (-)
+ (GND)                                |       v
+                                      |     (GND)
+                                      |
+   +----------------------------------+
+   |
+   |---> [Pin D9]  ---> [220Ω] ---> [Red LED (+)]   ---> [Red LED (-)]   ---> (GND)
+   |
+   +---> [Pin D10] ---> [220Ω] ---> [Green LED (+)] ---> [Green LED (-)] ---> (GND)
